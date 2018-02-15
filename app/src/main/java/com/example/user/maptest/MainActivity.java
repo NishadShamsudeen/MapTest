@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,8 +17,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GeocoderT.ReverseGeocoderListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GeocoderT.ReverseGeocoderListener, View.OnClickListener {
     private GoogleMap googleMap;
+    private Button mTerrainButton;
+    private Button mSateliteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
+        /*mTerrainButton = (Button) findViewById(R.id.bt_Terrain);
+        mSateliteButton = (Button) findViewById(R.id.bt_Satelite);
+
+        mTerrainButton.setOnClickListener(this);
+        mSateliteButton.setOnClickListener(this);*/
     }
 
     @Override
@@ -36,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.addCircle(new CircleOptions().center(cochi).strokeColor(Color.BLUE).radius(1000));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(cochi));
         googleMap.setOnMapClickListener(this);
+
 
 
     }
@@ -52,5 +62,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onResult(String location, LatLng latLng) {
         googleMap.clear();
         googleMap.addMarker(new MarkerOptions().position(latLng).title(location)).showInfoWindow();
+    }
+
+    @Override
+    public void onClick(View view) {
+        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 }
